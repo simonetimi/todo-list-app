@@ -1,0 +1,29 @@
+@import url("./styles/module.css");
+
+@font-face {
+  font-family: "Roboto";
+  src: url("./fonts/Roboto-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
+nav {
+  grid-area: 1 / 1 / 2 / 2;
+  background-color: #fff;
+  border-radius: 12px;
+}
+
+nav {
+  grid-area: 1 / 2 / 2 / 3;
+  background-color: #bbb;
+}
