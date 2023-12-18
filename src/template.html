@@ -4,9 +4,171 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
   </head>
   <body>
-    <nav></nav>
-    <main></main>
+    <nav>
+      <h2 class="nav-title">TickTickDone</h2>
+      <div id="add-list-button" class="new-element">
+        <span class="material-symbols-outlined">add_circle</span>
+        <p>New list</p>
+      </div>
+      <dialog id="add-list-modal">
+        <button><span class="material-symbols-outlined">collapse_content</span></button>
+        <form class="add-list-modal-container">
+          <label for="newlist">New list</label>
+          <div>
+            <input type="text" id="newlist" />
+            <span class="material-symbols-outlined">add</span>
+          </div>
+        </form>
+      </dialog>
+      <div class="lists-container">
+        <div id="home-list">
+          <span class="material-symbols-outlined">home</span>
+          <p>Home</p>
+        </div>
+        <div>
+          <span class="material-symbols-outlined" style="color: #a7c7e7"
+            >radio_button_unchecked</span
+          >
+          <p>Personal</p>
+        </div>
+        <span class="material-symbols-outlined edit-list">edit</span>
+        <div>
+          <span class="material-symbols-outlined" style="color: #ffd1dc"
+            >radio_button_unchecked</span
+          >
+          <p>Work</p>
+        </div>
+        <span class="material-symbols-outlined edit-list">edit</span>
+        <div>
+          <span class="material-symbols-outlined" style="color: #77dd77"
+            >radio_button_unchecked</span
+          >
+          <p>Family</p>
+        </div>
+        <span class="material-symbols-outlined edit-list">edit</span>
+      </div>
+    </nav>
+    <header>
+      <div class="welcome">
+        <p id="welcome-name">Welcome, 'retrieve name from browser'! <span>&#x1F44B;</span></p>
+        <p id="welcome-date">Today, 'retrieve day from data'</p>
+      </div>
+      <div class="controls">
+        <span class="material-symbols-outlined" id="sort">sort</span>
+      </div>
+    </header>
+    <div class="new-element" id="add-todo">
+      <button><span class="material-symbols-outlined">add_task</span></button>
+    </div>
+    <dialog id="add-todo-modal">
+      <button><span class="material-symbols-outlined">collapse_content</span></button>
+      <form class="add-todo-modal-container">
+        <div class="add-todo-modal-container-left">
+          <label for="title">Title</label>
+          <input type="text" id="title" />
+          <label for="dueDate">Due Date</label>
+          <input type="datetime-local" id="dueDate" />
+          <label for="notes">Notes</label>
+          <textarea id="notes"></textarea>
+        </div>
+        <div class="add-todo-modal-container-right">
+          <label for="priority">Priority</label>
+          <select id="priority">
+            <option value="low">Low</option>
+            <option value="normal">Normal</option>
+            <option value="hight">High</option>
+          </select>
+          <label for="list">List</label>
+          <select id="list"></select>
+          <div class="new-element">
+            <span class="material-symbols-outlined">add</span>
+            <p>Save</p>
+          </div>
+        </div>
+      </form>
+    </dialog>
+    <div class="todos-container">
+      <div class="todo-item" id="t0859375933">
+        <span class="material-symbols-outlined" style="color: #0e9700">task_alt</span>
+        <p>Todo title!</p>
+        <div class="todo-end">
+          <span class="material-symbols-outlined" style="color: #ff6961">exclamation</span>
+          <p>7th aug 2022</p>
+          <p>12:00</p>
+          <button><span class="material-symbols-outlined">expand_content</span></button>
+          <span class="material-symbols-outlined">edit_note</span>
+        </div>
+        <dialog class="view-todo-modal">
+          <div class="view-todo-modal-container">
+            <div class="todo-view-start">
+              <button>
+                <span class="material-symbols-outlined">collapse_content</span>
+              </button>
+              <span class="material-symbols-outlined" style="color: #77dd77">exclamation</span>
+              <p>13th dec 2024</p>
+              <p>18:00</p>
+            </div>
+            <p>Todo title!</p>
+            <p>Notes notes notes notes notes notes notes notes notes notes notes notes notes.</p>
+          </div>
+        </dialog>
+      </div>
+      <div class="todo-item" id="t6859375907">
+        <span class="material-symbols-outlined">radio_button_unchecked</span>
+        <p>Todo title!</p>
+        <div class="todo-end">
+          <span class="material-symbols-outlined" style="color: #ffb347">exclamation</span>
+          <p>30th jan 2024</p>
+          <p>11:00</p>
+          <button><span class="material-symbols-outlined">expand_content</span></button>
+          <span class="material-symbols-outlined">edit_note</span>
+        </div>
+        <dialog class="view-todo-modal">
+          <div class="view-todo-modal-container">
+            <div class="todo-view-start">
+              <button>
+                <span class="material-symbols-outlined">collapse_content</span>
+              </button>
+              <span class="material-symbols-outlined" style="color: #77dd77">exclamation</span>
+              <p>13th dec 2024</p>
+              <p>18:00</p>
+            </div>
+            <p>Todo title!</p>
+            <p>Notes notes notes notes notes notes notes notes notes notes notes notes notes.</p>
+          </div>
+        </dialog>
+      </div>
+      <div class="todo-item" id="t3259353941">
+        <span class="material-symbols-outlined">radio_button_unchecked</span>
+        <p>Todo title!</p>
+        <div class="todo-end">
+          <span class="material-symbols-outlined" style="color: #77dd77">exclamation</span>
+          <p>13th dec 2024</p>
+          <p>18:00</p>
+          <button><span class="material-symbols-outlined">expand_content</span></button>
+          <span class="material-symbols-outlined">edit_note</span>
+        </div>
+        <dialog class="view-todo-modal">
+          <div class="view-todo-modal-container">
+            <div class="todo-view-start">
+              <button>
+                <span class="material-symbols-outlined">collapse_content</span>
+              </button>
+              <span class="material-symbols-outlined" style="color: #77dd77">exclamation</span>
+              <p>13th dec 2024</p>
+              <p>18:00</p>
+            </div>
+            <p>Todo title!</p>
+            <p>Notes notes notes notes notes notes notes notes notes notes notes notes notes.</p>
+          </div>
+        </dialog>
+      </div>
+    </div>
   </body>
 </html>

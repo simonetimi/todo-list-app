@@ -1,11 +1,8 @@
-export function saveToStorage(elementToSave, name) {
-  localStorage.setItem(name, JSON.stringify(elementToSave));
+export function saveToStorage() {
+  localStorage.setItem("savedTodos", JSON.stringify(todos));
 }
-// Needed for a reset function
-export function removeFromStorage(name) {
-  JSON.parse(localStorage.getItem(name));
+export function getFromStorage() {
+  todos = JSON.parse(localStorage.getItem("savedTodos"));
 }
 
-export function getFromStorage(name) {
-  JSON.parse(localStorage.getItem(name));
-}
+// localStorage.clear();

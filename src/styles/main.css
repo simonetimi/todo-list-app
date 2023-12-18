@@ -1,0 +1,235 @@
+.new-element {
+  grid-area: 2 / 2 / 3 / 3;
+  width: auto;
+  height: 1.2rem;
+  padding: 0.5rem;
+  background-color: #fff;
+  border-radius: 20px;
+  justify-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.9rem;
+  gap: 0.2rem;
+  -webkit-box-shadow: 1px 2px 4px -1px rgba(0, 0, 0, 0.37);
+  box-shadow: 1px 2px 4px -1px rgba(0, 0, 0, 0.37);
+}
+
+.new-element:hover {
+  cursor: pointer;
+}
+
+.new-element:active {
+  transform: translateY(2px);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+#add-todo {
+  border-radius: 50%;
+  align-self: center;
+  margin-bottom: 1rem;
+}
+
+.todos-container {
+  grid-area: 3 / 2 / -1 / 3;
+  border-radius: 12px;
+  width: auto;
+  height: 72vh;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  gap: 0.8rem;
+}
+
+.todo-item {
+  background-color: #fff;
+  border-radius: 12px;
+  margin: 0 6vw;
+  -webkit-box-shadow: 1px 2px 4px -1px rgba(0, 0, 0, 0.37);
+  box-shadow: 1px 2px 4px -1px rgba(0, 0, 0, 0.37);
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.todo-item > p {
+  padding: 0.5rem;
+}
+
+.todo-end {
+  padding: 0.3rem;
+  margin-left: auto;
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+}
+
+.todo-end > p {
+  border-radius: 12px;
+  background-color: #efefef;
+  padding: 0.3rem 0.5rem;
+}
+
+.todo-end p:first-of-type {
+  width: 7rem;
+  text-align: center;
+}
+
+.todo-end p:nth-of-type(2) {
+  width: 3rem;
+  text-align: center;
+}
+
+.todo-item > span,
+.todo-end span:last-of-type,
+.todo-end span:nth-last-of-type(2),
+.todo-view-start > button > span,
+#add-todo-modal > button > span {
+  padding: 0.3rem;
+}
+
+.todo-end span:last-of-type:hover,
+.todo-end span:last-of-type:hover {
+  background-color: #efefef;
+  border-radius: 50%;
+  padding: 0.3rem;
+  cursor: pointer;
+}
+
+.todo-item > span:hover,
+.todo-view-start > button > span:hover,
+#add-todo-modal > button > span:hover {
+  cursor: pointer;
+  padding: 0.3rem;
+  border-radius: 50%;
+}
+
+.todo-item > span:active,
+.todo-end span:last-of-type:active,
+.todo-end span:nth-last-of-type(2):active,
+.todo-view-start > button > span:active,
+#add-todo-modal > button > span:active {
+  background-color: #efefef;
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0.3rem;
+  transform: translateY(2px);
+}
+
+/* modal settings */
+
+dialog {
+  background-color: #fff;
+  border-radius: 12px;
+  -webkit-box-shadow: 1px 2px 4px -1px rgba(0, 0, 0, 0.37);
+  box-shadow: 1px 2px 4px -1px rgba(0, 0, 0, 0.37);
+  padding: 1rem;
+  border: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+#add-todo-modal {
+  width: 36rem;
+  height: 26rem;
+}
+
+.add-todo-modal-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.4rem;
+}
+
+.add-todo-modal-container-left {
+  grid-column: 1 / 2;
+}
+
+.add-todo-modal-container-right {
+  grid-column: 2 / 3;
+}
+
+.add-todo-modal-container-left,
+.add-todo-modal-container-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+input,
+textarea,
+select {
+  border-radius: 12px;
+  border: 0;
+  background-color: #efefef;
+  width: 12rem;
+}
+
+.add-todo-modal-container-left > input,
+.add-todo-modal-container-right > select {
+  margin-bottom: 1.4rem;
+  padding: 0.4rem;
+}
+
+textarea {
+  height: 10rem;
+  resize: none;
+  width: 12rem;
+}
+
+.view-todo-modal {
+  width: 36rem;
+  height: 11rem;
+}
+
+.view-todo-modal-container {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  justify-content: center;
+}
+
+.view-todo-modal-container > p:nth-last-of-type(2) {
+  font-size: 1.1rem;
+  margin-top: 0.6rem;
+}
+
+.todo-view-start {
+  display: flex;
+  gap: 0.9rem;
+}
+
+.todo-view-start > span {
+  margin-left: auto;
+  align-self: center;
+}
+
+.todo-view-start > p {
+  align-self: center;
+}
+
+.todo-view-start > button > span,
+#add-todo-modal > button > span {
+  -webkit-box-shadow: 1px 2px 4px -1px rgba(0, 0, 0, 0.37);
+  box-shadow: 1px 2px 4px -1px rgba(0, 0, 0, 0.37);
+  border-radius: 50%;
+}
+
+button {
+  border: 0;
+  background-color: inherit;
+  cursor: pointer;
+}
+
+.add-todo-modal-container-right > .new-element {
+  margin-top: 10%;
+}

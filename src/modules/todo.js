@@ -1,15 +1,18 @@
 import { isAfter, parseISO } from "date-fns";
 
+let todos = {
+  personal: [],
+};
+
 class Todo {
-  constructor(title, dueDate, notes, priority, complete, list) {
+  constructor(title, dueDate, notes, priority, complete) {
     this.title = title;
     this.dueDate = parseISO(dueDate);
     this.notes = notes;
     this.priority = priority;
     this.complete = complete; //boolean. if true, disable "due" (include in isDue function)
-    this.list = list;
     this.due = this.isDue();
-    this.timestamp = Date.now(); //for ID purpose, but also for sorting (add date). the bigger, the newer
+    this.timestamp = Date.now(); //for ID purposes, but also for sorting (add date). the bigger, the newer
   }
   isDue() {
     const today = new Date();
@@ -31,29 +34,36 @@ function addTodo(title, dueDate, notes, priority, complete, list) {
 //remove todo from the given array (list)
 function removeTodo(list, timestamp) {
   const idx = todos[list].findIndex((obj) => obj.timestamp === timestamp);
-  todos[list].splice(idx, 1);
+  if (idx !== -1) {
+    todos[list].splice(idx, 1);
+  }
 }
 
 //remove todo and create new one in its place
-function editTodo(list, timestamp) {
+function editTodo(list, timestamp, newTitle, newDueDate, newNotes, newPriority, newComplete) {
   const idx = todos[list].findIndex((obj) => obj.timestamp === timestamp);
-  let oldTodo = todos[list].splice(idx, 1);
-  //keep old timestamp value
-  let saveTimestamp = oldTodo[0].timestamp;
-  let newTodo = new Todo(title, dueDate, notes, priority, complete);
-  newTodo.timestamp = saveTimestamp;
-  todos[list].push(newTodo);
+  if (idx !== -1) {
+    let oldTodo = todos[list].splice(idx, 1);
+    //keep old timestamp value
+    let saveTimestamp = oldTodo[0].timestamp;
+    let newTodo = new Todo(newTitle, newDueDate, newNotes, newPriority, newComplete);
+    newTodo.timestamp = saveTimestamp;
+    todos[list].push(newTodo);
+  }
 }
 
 //move todo from a list to another
 function moveTodo(originList, destinationList, timestamp) {
   const idx = todos[originList].findIndex((obj) => obj.timestamp === timestamp);
-  let todo = todos[originList].splice(idx, 1);
-  todos[destinationList].push(todo);
+  if (idx !== -1) {
+    let todo = todos[originList].splice(idx, 1);
+    // returns an array with one object. you need the spread operator to push it as an object
+    todos[destinationList].push(...todo);
+  }
 }
 
 //add new list array to todos object
-function newList(newList) {
+function addList(newList) {
   todos[newList] = [];
 }
 
@@ -63,11 +73,9 @@ function removeList(list) {
 }
 
 //rename list array
-function renameList(list, newListName) {
-  todos[newListName] = todos[list];
-  delete todos[list];
+function renameList(listToRename, newListName) {
+  todos[newListName] = todos[listToRename];
+  delete todos[listToRename];
 }
 
-const todos = {
-  personal: [],
-};
+export { addTodo, removeTodo, editTodo, moveTodo, addList, removeList, renameList, todos };
