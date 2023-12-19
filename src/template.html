@@ -16,6 +16,7 @@
         <span class="material-symbols-outlined">add_circle</span>
         <p>New list</p>
       </div>
+      <!-- Modal for adding new list (dialog) -->
       <dialog id="add-list-modal">
         <button><span class="material-symbols-outlined">collapse_content</span></button>
         <form class="add-list-modal-container">
@@ -26,6 +27,7 @@
           </div>
         </form>
       </dialog>
+      <!-- end modal -->
       <div class="lists-container">
         <div id="home-list">
           <span class="material-symbols-outlined">home</span>
@@ -37,6 +39,18 @@
           >
           <p>Personal</p>
         </div>
+        <!-- Modal for renaming the list (dialog) -->
+        <dialog id="rename-list-modal">
+          <button><span class="material-symbols-outlined">collapse_content</span></button>
+          <form class="rename-list-modal-container">
+            <label for="newlist">Rename list</label>
+            <div>
+              <input type="text" id="renamelist" />
+              <span class="material-symbols-outlined">done</span>
+            </div>
+          </form>
+        </dialog>
+        <!-- end modal -->
         <span class="material-symbols-outlined edit-list">edit</span>
         <div>
           <span class="material-symbols-outlined" style="color: #ffd1dc"
@@ -57,7 +71,7 @@
     <header>
       <div class="welcome">
         <p id="welcome-name">Welcome, 'retrieve name from browser'! <span>&#x1F44B;</span></p>
-        <p id="welcome-date">Today, 'retrieve day from data'</p>
+        <p id="welcome-date"></p>
       </div>
       <div class="controls">
         <span class="material-symbols-outlined" id="sort">sort</span>
@@ -66,6 +80,7 @@
     <div class="new-element" id="add-todo">
       <button><span class="material-symbols-outlined">add_task</span></button>
     </div>
+    <!-- Modal to make new todo -->
     <dialog id="add-todo-modal">
       <button><span class="material-symbols-outlined">collapse_content</span></button>
       <form class="add-todo-modal-container">
@@ -93,17 +108,9 @@
         </div>
       </form>
     </dialog>
+    <!-- end modal -->
     <div class="todos-container">
-      <div class="todo-item" id="t0859375933">
-        <span class="material-symbols-outlined" style="color: #0e9700">task_alt</span>
-        <p>Todo title!</p>
-        <div class="todo-end">
-          <span class="material-symbols-outlined" style="color: #ff6961">exclamation</span>
-          <p>7th aug 2022</p>
-          <p>12:00</p>
-          <button><span class="material-symbols-outlined">expand_content</span></button>
-          <span class="material-symbols-outlined">edit_note</span>
-        </div>
+      <!-- Modal to view todo (dialog)
         <dialog class="view-todo-modal">
           <div class="view-todo-modal-container">
             <div class="todo-view-start">
@@ -118,56 +125,7 @@
             <p>Notes notes notes notes notes notes notes notes notes notes notes notes notes.</p>
           </div>
         </dialog>
-      </div>
-      <div class="todo-item" id="t6859375907">
-        <span class="material-symbols-outlined">radio_button_unchecked</span>
-        <p>Todo title!</p>
-        <div class="todo-end">
-          <span class="material-symbols-outlined" style="color: #ffb347">exclamation</span>
-          <p>30th jan 2024</p>
-          <p>11:00</p>
-          <button><span class="material-symbols-outlined">expand_content</span></button>
-          <span class="material-symbols-outlined">edit_note</span>
-        </div>
-        <dialog class="view-todo-modal">
-          <div class="view-todo-modal-container">
-            <div class="todo-view-start">
-              <button>
-                <span class="material-symbols-outlined">collapse_content</span>
-              </button>
-              <span class="material-symbols-outlined" style="color: #77dd77">exclamation</span>
-              <p>13th dec 2024</p>
-              <p>18:00</p>
-            </div>
-            <p>Todo title!</p>
-            <p>Notes notes notes notes notes notes notes notes notes notes notes notes notes.</p>
-          </div>
-        </dialog>
-      </div>
-      <div class="todo-item" id="t3259353941">
-        <span class="material-symbols-outlined">radio_button_unchecked</span>
-        <p>Todo title!</p>
-        <div class="todo-end">
-          <span class="material-symbols-outlined" style="color: #77dd77">exclamation</span>
-          <p>13th dec 2024</p>
-          <p>18:00</p>
-          <button><span class="material-symbols-outlined">expand_content</span></button>
-          <span class="material-symbols-outlined">edit_note</span>
-        </div>
-        <dialog class="view-todo-modal">
-          <div class="view-todo-modal-container">
-            <div class="todo-view-start">
-              <button>
-                <span class="material-symbols-outlined">collapse_content</span>
-              </button>
-              <span class="material-symbols-outlined" style="color: #77dd77">exclamation</span>
-              <p>13th dec 2024</p>
-              <p>18:00</p>
-            </div>
-            <p>Todo title!</p>
-            <p>Notes notes notes notes notes notes notes notes notes notes notes notes notes.</p>
-          </div>
-        </dialog>
+        -->
       </div>
     </div>
   </body>

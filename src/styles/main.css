@@ -108,7 +108,7 @@
 
 .todo-item > span:active,
 .todo-end span:last-of-type:active,
-.todo-end span:nth-last-of-type(2):active,
+.todo-end span:nth-last-of-type(1):active,
 .todo-view-start > button > span:active,
 #add-todo-modal > button > span:active {
   background-color: #efefef;
@@ -171,6 +171,7 @@ select {
   border: 0;
   background-color: #efefef;
   width: 12rem;
+  padding: 0.4rem;
 }
 
 .add-todo-modal-container-left > input,
@@ -183,6 +184,7 @@ textarea {
   height: 10rem;
   resize: none;
   width: 12rem;
+  padding: 0.4rem;
 }
 
 .view-todo-modal {
@@ -232,4 +234,18 @@ button {
 
 .add-todo-modal-container-right > .new-element {
   margin-top: 10%;
+}
+
+/* colors */
+
+.green {
+  color: #77dd77;
+}
+
+.red {
+  color: #ff6961;
+}
+
+.orange {
+  color: #ff964f;
 }

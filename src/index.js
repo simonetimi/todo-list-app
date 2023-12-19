@@ -10,7 +10,13 @@ import {
   renameList,
   todos,
 } from "./modules/todo.js";
-import { setModalTodoItem, setModalAddTodo, setModalAddList } from "./modules/ui.js";
+import {
+  setModalTodoItem,
+  setModalAddTodo,
+  setModalAddList,
+  setModalRenameList,
+  renderTodoItems,
+} from "./modules/ui.js";
 
 if (process.env.NODE_ENV !== "production") {
   console.log("Looks like we are in development mode!");
@@ -19,11 +25,6 @@ if (process.env.NODE_ENV !== "production") {
 //testing
 
 // Assicurati di chiamare la funzione setModal
-setModalTodoItem("0859375933");
-setModalTodoItem("6859375907");
-setModalTodoItem("3259353941");
-setModalAddTodo();
-setModalAddList();
 
 window.test = {
   addTodo,
@@ -37,8 +38,13 @@ window.test = {
   saveToStorage,
 };
 
-addTodo("Hi", "2022-12-12", "Hello world", "high", false, "personal");
+addTodo("Hi", "2017-06-01T08:30", "Hello world", "high", false, "personal");
 addList("peracotta");
-addTodo("Altro todo", "2024-12-12", "Hello cookie", "low", true, "peracotta");
+addTodo("Altro todo", "2014-01-01T08:30", "Hello cookie", "low", true, "peracotta");
 
 console.log(todos);
+
+setModalAddTodo();
+setModalAddList();
+setModalRenameList();
+renderTodoItems(todos);
