@@ -16,6 +16,8 @@ import {
   setModalAddList,
   setModalRenameList,
   renderTodoItems,
+  currentList,
+  sortingSetting,
 } from "./modules/ui.js";
 
 if (process.env.NODE_ENV !== "production") {
@@ -38,7 +40,14 @@ window.test = {
   saveToStorage,
 };
 
-addTodo("Hi", "2017-06-01T08:30", "Hello world", "high", false, "personal");
+addTodo(
+  "Hi",
+  "2017-06-01T08:30",
+  "Hello world more notes notes more notesnotesmore notes notes more notes notes more notes notes",
+  "high",
+  false,
+  "personal"
+);
 addList("peracotta");
 addTodo("Altro todo", "2014-01-01T08:30", "Hello cookie", "low", true, "peracotta");
 
@@ -47,4 +56,5 @@ console.log(todos);
 setModalAddTodo();
 setModalAddList();
 setModalRenameList();
-renderTodoItems(todos);
+
+renderTodoItems();

@@ -200,6 +200,11 @@ textarea {
   justify-content: center;
 }
 
+.view-todo-modal-container > p {
+  align-items: flex-start;
+  width: 100%;
+}
+
 .view-todo-modal-container > p:nth-last-of-type(2) {
   font-size: 1.1rem;
   margin-top: 0.6rem;
