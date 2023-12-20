@@ -83,25 +83,25 @@
     <!-- Modal to make new todo -->
     <dialog id="add-todo-modal">
       <button><span class="material-symbols-outlined">collapse_content</span></button>
-      <form class="add-todo-modal-container">
+      <form class="add-todo-modal-container" action="#" method="post">
         <div class="add-todo-modal-container-left">
           <label for="title">Title</label>
-          <input type="text" id="title" />
+          <input type="text" id="title" tabindex="1" maxlength="20" minlength="2" required />
           <label for="dueDate">Due Date</label>
-          <input type="datetime-local" id="dueDate" />
+          <input type="datetime-local" id="dueDate" tabindex="2" required />
           <label for="notes">Notes</label>
-          <textarea id="notes"></textarea>
+          <textarea id="notes" maxlength="160" tabindex="3"></textarea>
         </div>
         <div class="add-todo-modal-container-right">
           <label for="priority">Priority</label>
-          <select id="priority">
+          <select id="priority" tabindex="4">
             <option value="low">Low</option>
             <option value="normal">Normal</option>
             <option value="hight">High</option>
           </select>
           <label for="list">List</label>
-          <select id="list"></select>
-          <div class="new-element">
+          <select id="list" tabindex="5"></select>
+          <div id="submit-newToDo" class="new-element">
             <span class="material-symbols-outlined">add</span>
             <p>Save</p>
           </div>
@@ -109,8 +109,6 @@
       </form>
     </dialog>
     <!-- end modal -->
-    <div class="todos-container">
-      </div>
-    </div>
+    <div class="todos-container"></div>
   </body>
 </html>

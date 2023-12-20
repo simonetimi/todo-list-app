@@ -12,8 +12,6 @@ import {
 } from "./modules/todo.js";
 import {
   setModalTodoItem,
-  setModalAddTodo,
-  setModalAddList,
   setModalRenameList,
   renderTodoItems,
   currentList,
@@ -45,16 +43,12 @@ addTodo(
   "2017-06-01T08:30",
   "Hello world more notes notes more notesnotesmore notes notes more notes notes more notes notes",
   "high",
-  false,
   "personal"
 );
 addList("peracotta");
-addTodo("Altro todo", "2014-01-01T08:30", "Hello cookie", "low", true, "peracotta");
+addTodo("Altro todo", "2014-01-01T08:30", "Hello cookie", "low", "peracotta");
 
 console.log(todos);
 
-setModalAddTodo();
-setModalAddList();
 setModalRenameList();
-
 renderTodoItems();

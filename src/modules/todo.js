@@ -5,12 +5,12 @@ let todos = {
 };
 
 class Todo {
-  constructor(title, dueDate, notes, priority, complete) {
+  constructor(title, dueDate, notes, priority) {
     this.title = title;
     this.dueDate = parseISO(dueDate);
     this.notes = notes;
     this.priority = priority;
-    this.complete = complete; //boolean. if true, disable "due" (include in isDue function)
+    this.complete = false; //boolean. if true, disable "due" (include in isDue function)
     this.due = this.isDue();
     this.timestamp = Date.now(); //for ID purposes, but also for sorting (add date). the bigger, the newer
   }
@@ -26,8 +26,8 @@ class Todo {
 }
 
 //add todo to the given array (list value being selectable on UI)
-function addTodo(title, dueDate, notes, priority, complete, list) {
-  let todo = new Todo(title, dueDate, notes, priority, complete);
+function addTodo(title, dueDate, notes, priority, list) {
+  let todo = new Todo(title, dueDate, notes, priority);
   todos[list].push(todo);
 }
 
