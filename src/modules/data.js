@@ -1,8 +1,16 @@
 import { isAfter, parseISO } from "date-fns";
 
+import { getFromStorage, saveToStorage } from "./storage.js";
+import { writeName } from "./ui.js";
+
 let todos = {
   personal: [],
 };
+
+//function to update todos
+function setTodos(newTodos) {
+  todos = newTodos;
+}
 
 class Todo {
   constructor(title, dueDate, notes, priority) {
@@ -78,4 +86,31 @@ function renameList(listToRename, newListName) {
   delete todos[listToRename];
 }
 
-export { addTodo, removeTodo, editTodo, moveTodo, addList, removeList, renameList, todos };
+//part to manage username
+let username = getFromStorage("username");
+
+(function checkName() {
+  if (username !== null) {
+    writeName(username);
+  } else {
+    return;
+  }
+})();
+
+function saveName(nameFromForm) {
+  saveToStorage("username", nameFromForm);
+}
+
+export {
+  addTodo,
+  removeTodo,
+  editTodo,
+  moveTodo,
+  addList,
+  removeList,
+  renameList,
+  setTodos,
+  todos,
+  username,
+  saveName,
+};

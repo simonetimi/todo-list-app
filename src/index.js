@@ -8,8 +8,9 @@ import {
   addList,
   removeList,
   renameList,
+  setTodos,
   todos,
-} from "./modules/todo.js";
+} from "./modules/data.js";
 import {
   setModalTodoItem,
   setModalRenameList,
@@ -38,16 +39,12 @@ window.test = {
   saveToStorage,
 };
 
-addTodo(
-  "Hi",
-  "2017-06-01T08:30",
-  "Hello world more notes notes more notesnotesmore notes notes more notes notes more notes notes",
-  "high",
-  "personal"
-);
-addList("peracotta");
-addTodo("Altro todo", "2014-01-01T08:30", "Hello cookie", "low", "peracotta");
+saveToStorage("savedTodos", todos);
 
+removeTodo("personal", 589473829);
+
+console.log(todos);
+setTodos(getFromStorage("savedTodos"));
 console.log(todos);
 
 setModalRenameList();

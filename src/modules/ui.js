@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 
-import { todos, addTodo } from "./todo.js";
+import { todos, addTodo, saveName } from "./data.js";
 
 // convert strings from user intput to variable names and vicebersa
 function convertComputerStringToReadable(computerString) {
@@ -69,16 +69,16 @@ function setModalRenameList() {
   });
 }
 
-// viariable the controls the current sorting method
-let sortingSetting = "manual";
-
-// variable that controls which list the user is viewing
+// viariable (sorting)the controls the current sorting method
+// variable (currentList) that controls which list the user is viewing
 // default is home: renders all non complete tasks
-// LA VARIABILE DEVE ESSERE DOVE VIENE ESEGUITA LA FUNZIONA, NON DOVE È REGISTRATA!
-let currentList = "home";
+let uiSettings = {
+  sorting: "manual",
+  currentList: "home",
+};
 
 function renderTodoItems() {
-  if (currentList === "home") {
+  if (uiSettings.currentList === "home") {
     const todoContainer = document.querySelector(".todos-container");
     todoContainer.innerHTML = "";
     for (let key in todos) {
@@ -170,6 +170,24 @@ function listOfListsGenerator(obj) {
   }
 }
 
+(function listenForName() {
+  const usernameForm = document.querySelector("#username-form");
+  const usernameInput = document.querySelector("#username");
+  usernameForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    writeName(usernameInput.value);
+    saveName(usernameInput.value);
+  });
+})();
+
+function writeName(usernameValue) {
+  const welcomeNameDiv = document.querySelector("#welcome-name");
+  welcomeNameDiv.innerHTML = "";
+  const welcomeNamePara = document.createElement("p");
+  welcomeNamePara.innerHTML = `Welcome, ${usernameValue} <span>&#x1F44B;</span>`;
+  welcomeNameDiv.appendChild(welcomeNamePara);
+}
+
 (function writeToday() {
   const currentDate = new Date();
   document.querySelector("#welcome-date").textContent = `${format(
@@ -182,13 +200,15 @@ function listOfListsGenerator(obj) {
   const addTodoModal = document.querySelector("#add-todo-modal");
   const form = document.querySelector(".add-todo-modal-container");
   const addTodoModalSubmit = document.querySelector("#submit-newToDo");
-  addTodoModalSubmit.addEventListener("click", (event) => {
-    console.log("I'm cliking!");
+  addTodoModalSubmit.addEventListener("click", () => {
     let title = addTodoModal.querySelector("#title").value;
     let dueDate = addTodoModal.querySelector("#dueDate").value;
     let notes = addTodoModal.querySelector("#notes").value;
     let priority = addTodoModal.querySelector("#priority").value;
     let list = addTodoModal.querySelector("#list").value;
+    if (dueDate === "") {
+      return;
+    }
     addTodo(title, dueDate, notes, priority, list);
     renderTodoItems();
     const dialog = document.querySelector("#add-todo-modal");
@@ -197,4 +217,13 @@ function listOfListsGenerator(obj) {
   });
 })();
 
-export { setModalTodoItem, setModalRenameList, renderTodoItems, currentList, sortingSetting };
+(function preventFormsSubmit() {
+  const formsArray = document.querySelectorAll("form");
+  formsArray.forEach((element) => {
+    element.addEventListener("submit", (event) => {
+      event.preventDefault();
+    });
+  });
+})();
+
+export { setModalTodoItem, setModalRenameList, renderTodoItems, uiSettings, writeName };
