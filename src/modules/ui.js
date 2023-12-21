@@ -88,6 +88,10 @@ function renderTodoItems() {
           todoItem.setAttribute("id", `item-${todo.timestamp}`);
           todoItem.classList.add("todo-item");
           todoItem.innerHTML = generateTodoItemUI(todo);
+          // check if due
+          if (todo.due) {
+            todoItem.classList.add("due");
+          }
           // checkbox button (complete task)
           const checkButton = todoItem.querySelector(`#check-${todo.timestamp}`);
           !todo.complete
@@ -131,8 +135,8 @@ function generateTodoItemUI(todo) {
 <p id="title-${todo.timestamp}">${todo.title}</p>
 <div class="todo-end">
   <span class="material-symbols-outlined" id="priority-${todo.timestamp}">exclamation</span>
-  <p>${format(parseISO(todo.dueDate), "dd/MM/yyyy")}</p>
-  <p>${format(parseISO(todo.dueDate), "HH:mm")}</p>
+  <p>${format(new Date(todo.dueDate), "dd/MM/yyyy")}</p>
+  <p>${format(new Date(todo.dueDate), "HH:mm")}</p>
   <button><span class="material-symbols-outlined" id="view-"${
     todo.timestamp
   }">expand_content</span></button>
@@ -148,8 +152,8 @@ function generateTodoItemUI(todo) {
       <span class="material-symbols-outlined" id="modal-priority-todo-${
         todo.timestamp
       }">exclamation</span>
-      <p>${format(parseISO(todo.dueDate), "dd/MM/yyyy")}</p>
-      <p>${format(parseISO(todo.dueDate), "HH:mm")}</p>
+      <p>${format(new Date(todo.dueDate), "dd/MM/yyyy")}</p>
+      <p>${format(new Date(todo.dueDate), "HH:mm")}</p>
     </div>
     <p>${todo.title}</p>
     <p>${todo.notes}</p>
@@ -206,7 +210,7 @@ function writeName(usernameValue) {
     let notes = addTodoModal.querySelector("#notes").value;
     let priority = addTodoModal.querySelector("#priority").value;
     let list = addTodoModal.querySelector("#list").value;
-    if (dueDate === "") {
+    if (dueDate === "" || title === "") {
       return;
     }
     addTodo(title, dueDate, notes, priority, list);

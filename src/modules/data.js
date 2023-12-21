@@ -1,4 +1,4 @@
-import { isAfter } from "date-fns";
+import { isAfter, parseISO } from "date-fns";
 
 import { getFromStorage, saveToStorage } from "./storage.js";
 import { writeName } from "./ui.js";
@@ -9,13 +9,17 @@ let todos = {
 
 //function to update todos
 function setTodos(newTodos) {
-  todos = newTodos;
+  if (newTodos === null) {
+    return;
+  } else {
+    todos = newTodos;
+  }
 }
 
 class Todo {
   constructor(title, dueDate, notes, priority) {
     this.title = title;
-    this.dueDate = dueDate;
+    this.dueDate = new Date(dueDate);
     this.notes = notes;
     this.priority = priority;
     this.complete = false; //boolean. if true, disable "due" (include in isDue function)
