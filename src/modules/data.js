@@ -1,4 +1,4 @@
-import { isAfter, parseISO } from "date-fns";
+import { isAfter } from "date-fns";
 
 import { getFromStorage, saveToStorage } from "./storage.js";
 import { writeName } from "./ui.js";
@@ -15,7 +15,7 @@ function setTodos(newTodos) {
 class Todo {
   constructor(title, dueDate, notes, priority) {
     this.title = title;
-    this.dueDate = parseISO(dueDate);
+    this.dueDate = dueDate;
     this.notes = notes;
     this.priority = priority;
     this.complete = false; //boolean. if true, disable "due" (include in isDue function)
@@ -35,8 +35,9 @@ class Todo {
 
 //add todo to the given array (list value being selectable on UI)
 function addTodo(title, dueDate, notes, priority, list) {
-  let todo = new Todo(title, dueDate, notes, priority);
+  const todo = new Todo(title, dueDate, notes, priority);
   todos[list].push(todo);
+  saveToStorage("savedTodos", todos);
 }
 
 //remove todo from the given array (list)

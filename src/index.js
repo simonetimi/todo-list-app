@@ -23,9 +23,10 @@ if (process.env.NODE_ENV !== "production") {
   console.log("Looks like we are in development mode!");
 }
 
-//testing
+// init
+setTodos(getFromStorage("savedTodos"));
 
-// Assicurati di chiamare la funzione setModal
+//testing
 
 window.test = {
   addTodo,
@@ -39,12 +40,6 @@ window.test = {
   saveToStorage,
 };
 
-saveToStorage("savedTodos", todos);
-
-removeTodo("personal", 589473829);
-
-console.log(todos);
-setTodos(getFromStorage("savedTodos"));
 console.log(todos);
 
 setModalRenameList();

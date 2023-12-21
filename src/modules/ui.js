@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 import { todos, addTodo, saveName } from "./data.js";
 
@@ -131,8 +131,8 @@ function generateTodoItemUI(todo) {
 <p id="title-${todo.timestamp}">${todo.title}</p>
 <div class="todo-end">
   <span class="material-symbols-outlined" id="priority-${todo.timestamp}">exclamation</span>
-  <p>${format(todo.dueDate, "dd/MM/yyyy")}</p>
-  <p>${format(todo.dueDate, "HH:mm")}</p>
+  <p>${format(parseISO(todo.dueDate), "dd/MM/yyyy")}</p>
+  <p>${format(parseISO(todo.dueDate), "HH:mm")}</p>
   <button><span class="material-symbols-outlined" id="view-"${
     todo.timestamp
   }">expand_content</span></button>
@@ -148,8 +148,8 @@ function generateTodoItemUI(todo) {
       <span class="material-symbols-outlined" id="modal-priority-todo-${
         todo.timestamp
       }">exclamation</span>
-      <p>${format(todo.dueDate, "dd/MM/yyyy")}</p>
-      <p>${format(todo.dueDate, "HH:mm")}</p>
+      <p>${format(parseISO(todo.dueDate), "dd/MM/yyyy")}</p>
+      <p>${format(parseISO(todo.dueDate), "HH:mm")}</p>
     </div>
     <p>${todo.title}</p>
     <p>${todo.notes}</p>
