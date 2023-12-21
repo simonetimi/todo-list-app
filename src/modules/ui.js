@@ -90,7 +90,11 @@ function renderTodoItems() {
           todoItem.innerHTML = generateTodoItemUI(todo);
           // check if due
           if (todo.due) {
-            todoItem.classList.add("due");
+            const datePara = todoItem.querySelectorAll(".todo-end > p");
+            datePara.forEach((element) => {
+              console.log(todos);
+              element.classList.add("due");
+            });
           }
           // checkbox button (complete task)
           const checkButton = todoItem.querySelector(`#check-${todo.timestamp}`);

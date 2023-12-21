@@ -255,6 +255,6 @@ button {
   color: #ff964f;
 }
 
-.due {
-  background-color: rgb(250, 160, 160, 0.15);
+.todo-end > p.due {
+  background-color: rgb(250, 160, 160, 0.7);
 }
