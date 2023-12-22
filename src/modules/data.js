@@ -7,7 +7,7 @@ let todos = {
   personal: [],
 };
 
-//function to update todos
+//function to update todos in different modules
 function setTodos(newTodos) {
   if (newTodos === null) {
     return;
@@ -17,11 +17,12 @@ function setTodos(newTodos) {
 }
 
 class Todo {
-  constructor(title, dueDate, notes, priority) {
+  constructor(title, dueDate, notes, priority, list) {
     this.title = title;
     this.dueDate = new Date(dueDate);
     this.notes = notes;
     this.priority = priority;
+    this.list = list;
     this.complete = false; //boolean. if true, disable "due" (include in isDue function)
     this.due = this.isDue();
     this.timestamp = Date.now(); //for ID purposes, but also for sorting (add date). the bigger, the newer
@@ -39,7 +40,7 @@ class Todo {
 
 //add todo to the given array (list value being selectable on UI)
 function addTodo(title, dueDate, notes, priority, list) {
-  const todo = new Todo(title, dueDate, notes, priority);
+  const todo = new Todo(title, dueDate, notes, priority, list);
   todos[list].push(todo);
   saveToStorage("savedTodos", todos);
 }
@@ -50,18 +51,20 @@ function removeTodo(list, timestamp) {
   if (idx !== -1) {
     todos[list].splice(idx, 1);
   }
+  saveToStorage("savedTodos", todos);
 }
 
 //remove todo and create new one in its place
-function editTodo(list, timestamp, newTitle, newDueDate, newNotes, newPriority, newComplete) {
+function editTodo(list, timestamp, newTitle, newDueDate, newNotes, newPriority, newList) {
   const idx = todos[list].findIndex((obj) => obj.timestamp === timestamp);
   if (idx !== -1) {
     let oldTodo = todos[list].splice(idx, 1);
     //keep old timestamp value
-    let saveTimestamp = oldTodo[0].timestamp;
-    let newTodo = new Todo(newTitle, newDueDate, newNotes, newPriority, newComplete);
-    newTodo.timestamp = saveTimestamp;
-    todos[list].push(newTodo);
+    let savedTimestamp = oldTodo[0].timestamp;
+    let newTodo = new Todo(newTitle, newDueDate, newNotes, newPriority, newList);
+    newTodo.timestamp = savedTimestamp;
+    todos[newList].push(newTodo);
+    saveToStorage("savedTodos", todos);
   }
 }
 

@@ -25,6 +25,7 @@ if (process.env.NODE_ENV !== "production") {
 
 // init
 setTodos(getFromStorage("savedTodos"));
+renderTodoItems();
 
 //testing
 
@@ -40,7 +41,4 @@ window.test = {
   saveToStorage,
 };
 
-console.log(todos);
-
-setModalRenameList();
-renderTodoItems();
+const arrayToSort = [].concat(...Object.values(todos));
