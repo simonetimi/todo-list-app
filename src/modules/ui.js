@@ -109,10 +109,13 @@ function renderTodoItems() {
     todoContainer.innerHTML = "";
     const arrayToSort = [].concat(...Object.values(todos));
     //sorting by due date
-    const sortedArray = arrayToSort.sort((a, b) =>
+    const sortedArrayByDueDate = arrayToSort.sort((a, b) =>
       a.dueDate < b.dueDate ? 1 : a.dueDate > b.dueDate ? -1 : 0
     );
-    sortedArray.forEach((todo) => {
+    const sortedArrayByCompleteAndDueDate = sortedArrayByDueDate.sort(
+      (a, b) => Number(a.complete) - Number(b.complete)
+    );
+    sortedArrayByCompleteAndDueDate.forEach((todo) => {
       const todoItem = document.createElement("div");
       todoItem.setAttribute("id", `item-${todo.timestamp}`);
       todoItem.classList.add("todo-item");

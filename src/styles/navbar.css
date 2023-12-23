@@ -14,9 +14,16 @@ nav {
 }
 
 h2 {
-  font-variant: small-caps;
-  font-size: 1.8rem;
+  font-family: "Montserrat";
+  font-weight: 700;
+  font-size: 2.2rem;
   align-self: center;
+  text-shadow: -15px 5px 20px #ced0d3;
+  letter-spacing: 0.02em;
+  text-align: center;
+  color: #f9f1cc;
+  text-shadow: 2px 2px 0px #ffb650, 4px 4px 0px #ffd662, 6px 6px 0px #ff80bf, 8px 8px 0px #ef5097,
+    10px 10px 0px #6868ac, 12px 12px 0px #90b1e0;
 }
 
 .lists-container {
