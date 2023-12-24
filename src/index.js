@@ -1,4 +1,5 @@
 import "./index.css";
+import Logo from "./images/logo.jpg";
 import { saveToStorage, getFromStorage } from "./modules/storage.js";
 import {
   addTodo,
@@ -24,6 +25,12 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // init
+(function addLogo() {
+  const sidebar = document.querySelector("nav");
+  const logoImg = new Image();
+  logoImg.src = Logo;
+  sidebar.prepend(logoImg);
+})();
 setTodos(getFromStorage("savedTodos"));
 renderTodoItems();
 

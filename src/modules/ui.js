@@ -1,4 +1,4 @@
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 
 import { todos, addTodo, editTodo, saveName, removeTodo } from "./data.js";
 
@@ -94,14 +94,23 @@ function setModalRenameList() {
   });
 }
 
-// variables controlling current list viewed and sorting setting
-// rules: home renders every list sorted in due date
-// additional sorting: alphabetical order, due order
-
 let uiSettings = {
-  sorting: "manual",
+  sorting: "dueDate",
   currentList: "home",
 };
+
+//replace this function
+function sortingSetter() {
+  if (uiSettings.currentList === "home") {
+    if (uiSettings.sorting === "dueDate") {
+      //logic that transforms todo container for duedate and then check, passes it to render
+    } else if (uiSettings.sorting === "priority") {
+      //logic that trasnforms todo container for priority and then check, passesi it to render
+    }
+  } else {
+    //logic that gets the list and select the correct array
+  }
+}
 
 function renderTodoItems() {
   if (uiSettings.currentList === "home") {
@@ -285,8 +294,6 @@ function listOfListsGeneratorForEdit(obj, timestamp) {
   }
 }
 
-//BUGS TO FIX
-// 3. style the modal properly (CSS)
 function captureEditTodoModal(timestamp, list) {
   const editTodoModal = document.querySelector(`#edit-todo-modal-${timestamp}`);
   const form = document.querySelector(`#edit-todo-modal-container-${timestamp}`);

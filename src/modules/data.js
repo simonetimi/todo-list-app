@@ -1,4 +1,4 @@
-import { isAfter, parseISO } from "date-fns";
+import { isAfter } from "date-fns";
 
 import { getFromStorage, saveToStorage } from "./storage.js";
 import { writeName } from "./ui.js";
