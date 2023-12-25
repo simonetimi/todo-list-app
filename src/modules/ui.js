@@ -276,7 +276,8 @@ function generateTodoItemUI(todo) {
 function listOfListsGeneratorforAdd(obj) {
   const listSelectModal = document.querySelector("#list");
   listSelectModal.innerHTML = "";
-  for (let key in obj) {
+  const sortedList = sortObjectKeysAlphabetically(obj);
+  for (let key in sortedList) {
     const option = document.createElement("option");
     const valueAsString = String(key);
     option.setAttribute("value", valueAsString);
