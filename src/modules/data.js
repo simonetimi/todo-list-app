@@ -22,7 +22,6 @@ class Todo {
     this.dueDate = new Date(dueDate);
     this.notes = notes;
     this.priority = Number(priority);
-    this.list = list;
     this.complete = false; //boolean. if true, disable "due" (include in isDue function)
     this.due = this.isDue();
     this.timestamp = Date.now(); //for ID purposes, but also for sorting (add date). the bigger, the newer
@@ -93,8 +92,9 @@ function removeList(list) {
 
 //rename list array
 function renameList(listToRename, newListName) {
-  todos[newListName] = todos[listToRename];
+  const temp = [...todos[listToRename]];
   delete todos[listToRename];
+  todos[newListName] = temp;
   saveToStorage("savedTodos", todos);
 }
 

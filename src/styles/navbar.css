@@ -140,7 +140,7 @@ nav > .new-element > span {
   transform: translateY(2px);
 }
 
-input[type="text"] {
+#newlist {
   width: 80rem;
 }
 
@@ -148,6 +148,7 @@ input[type="color"] {
   align-self: center;
   background-color: transparent;
   padding: 0;
+  cursor: pointer;
 }
 
 input[type="color"]:first-child {
@@ -167,4 +168,8 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 input[type="color"]::-webkit-color-swatch {
   border: none;
   border-radius: 50%;
+}
+
+.rename-list-color-input {
+  width: 2rem;
 }

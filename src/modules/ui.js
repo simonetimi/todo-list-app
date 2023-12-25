@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 
-import { todos, addTodo, editTodo, saveName, removeTodo, addList } from "./data.js";
+import { todos, addTodo, editTodo, saveName, removeTodo, addList, renameList } from "./data.js";
 import { saveToStorage, getFromStorage } from "./storage.js";
 
 (function init() {
@@ -83,7 +83,7 @@ function setModalAddList() {
     dialog.close();
   });
 }
-
+/*
 function setModalRenameList() {
   const dialog = document.querySelector("#rename-list-modal");
   const showButton = document.querySelector(".edit-list");
@@ -95,6 +95,7 @@ function setModalRenameList() {
     dialog.close();
   });
 }
+*/
 
 let uiSettings = {
   sorting: "dueDate",
@@ -365,6 +366,75 @@ let listColor = {
   personal: "#a7c7e7",
 };
 
+function setModalRenameList(list) {
+  const dialog = document.querySelector(`#rename-list-modal-${list}`);
+  const showButton = document.querySelector(`#edit-${list}`);
+  const closeButton = document.querySelector(`#rename-list-modal-${list} button`);
+  showButton.addEventListener("click", () => {
+    dialog.showModal();
+  });
+  closeButton.addEventListener("click", () => {
+    dialog.close();
+  });
+  const saveEditsButton = document.querySelector(`#save-list-edits-${list}`);
+  const editListInput = document.querySelector(`#rename-list-${list}`);
+  const editColorInput = document.querySelector(`#edit-list-color-${list}`);
+  saveEditsButton.addEventListener("click", () => {
+    const renamedList = editListInput.value;
+    renameList(list, renamedList);
+    listColor[renamedList] = editColorInput.value;
+    delete listColor[list];
+    console.log(listColor);
+    saveToStorage("listColor", listColor);
+    renderLists(todos);
+    dialog.close();
+  });
+}
+
+function renderLists(obj) {
+  const listsContainer = document.querySelector(".lists-container");
+  listsContainer.innerHTML = "";
+  listsContainer.innerHTML = `
+  <div id="home-list">
+  <span class="material-symbols-outlined">home</span>
+  <p>Home</p>
+  </div>
+  </div>
+  `;
+  for (let key in obj) {
+    const listItem = generateTodoList(key);
+    listsContainer.insertAdjacentHTML("beforeend", listItem);
+    setModalRenameList(key);
+  }
+}
+
+function generateTodoList(list) {
+  return `
+  <div>
+  <span class="material-symbols-outlined" style="color: ${listColor[list]}"
+    >radio_button_unchecked</span
+  >
+  <p>${convertComputerStringToReadable(list)}</p>
+  </div>
+  <span class="material-symbols-outlined edit-list" id="edit-${list}">edit</span>
+<!-- Modal for renaming the list (dialog) -->
+<dialog id="rename-list-modal-${list}">
+  <button><span class="material-symbols-outlined">collapse_content</span></button>
+  <form class="rename-list-modal-container">
+    <label for="newlist">Edit list</label>
+    <div>
+      <input type="text" id="rename-list-${list}" value="${convertComputerStringToReadable(list)}"/>
+      <input type="color" value="${
+        listColor[list]
+      }" id="edit-list-color-${list}" class="rename-list-color-input" />
+      <span class="material-symbols-outlined" id="save-list-edits-${list}">done</span>
+    </div>
+  </form>
+</dialog>
+<!-- end modal -->
+  `;
+}
+
 function setColors(newListColor) {
   if (newListColor === null) {
     return;
@@ -385,6 +455,7 @@ function addNewList() {
     //function to render list
     const dialog = document.querySelector("#add-list-modal");
     const form = document.querySelector(".add-list-modal-container");
+    renderLists(todos);
     dialog.close();
     form.reset();
   });
@@ -399,4 +470,12 @@ function preventFormsSubmit() {
   });
 }
 
-export { setModalTodoItem, setModalRenameList, sortAndRender, uiSettings, writeName, setColors };
+export {
+  setModalTodoItem,
+  setModalRenameList,
+  sortAndRender,
+  uiSettings,
+  writeName,
+  setColors,
+  renderLists,
+};
