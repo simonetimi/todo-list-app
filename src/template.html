@@ -18,7 +18,8 @@
           <label for="newlist">New list</label>
           <div>
             <input type="text" id="newlist" />
-            <span class="material-symbols-outlined">add</span>
+            <input type="color" value="#a7c7e7" id="newlistcolor" />
+            <span class="material-symbols-outlined" id="submit-new-list">add</span>
           </div>
         </form>
       </dialog>
@@ -94,9 +95,9 @@
         <div class="add-todo-modal-container-right">
           <label for="priority">Priority</label>
           <select id="priority" tabindex="4">
-            <option value="low">Low</option>
-            <option value="normal">Normal</option>
-            <option value="hight">High</option>
+            <option value="0">Low</option>
+            <option value="1">Normal</option>
+            <option value="2">High</option>
           </select>
           <label for="list">List</label>
           <select id="list" tabindex="5"></select>

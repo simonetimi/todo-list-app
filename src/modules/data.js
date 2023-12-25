@@ -21,7 +21,7 @@ class Todo {
     this.title = title;
     this.dueDate = new Date(dueDate);
     this.notes = notes;
-    this.priority = priority;
+    this.priority = Number(priority);
     this.list = list;
     this.complete = false; //boolean. if true, disable "due" (include in isDue function)
     this.due = this.isDue();
@@ -75,23 +75,27 @@ function moveTodo(originList, destinationList, timestamp) {
     let todo = todos[originList].splice(idx, 1);
     // returns an array with one object. you need the spread operator to push it as an object
     todos[destinationList].push(...todo);
+    saveToStorage("savedTodos", todos);
   }
 }
 
 //add new list array to todos object
 function addList(newList) {
   todos[newList] = [];
+  saveToStorage("savedTodos", todos);
 }
 
 //remove new list array
 function removeList(list) {
   delete todos[list];
+  saveToStorage("savedTodos", todos);
 }
 
 //rename list array
 function renameList(listToRename, newListName) {
   todos[newListName] = todos[listToRename];
   delete todos[listToRename];
+  saveToStorage("savedTodos", todos);
 }
 
 //part to manage username

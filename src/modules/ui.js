@@ -1,6 +1,15 @@
 import { format } from "date-fns";
 
-import { todos, addTodo, editTodo, saveName, removeTodo } from "./data.js";
+import {
+  todos,
+  addTodo,
+  editTodo,
+  saveName,
+  removeTodo,
+  addList,
+  saveToStorage,
+  getFromStorage,
+} from "./data.js";
 
 (function init() {
   setModalAddTodo();
@@ -9,6 +18,7 @@ import { todos, addTodo, editTodo, saveName, removeTodo } from "./data.js";
   writeToday();
   captureAddTodoModal();
   preventFormsSubmit();
+  addNewList();
 })();
 
 // convert strings from user intput to variable names and vicebersa
@@ -100,77 +110,85 @@ let uiSettings = {
 };
 
 //replace this function
-function sortingSetter() {
+function sortAndRender() {
   if (uiSettings.currentList === "home") {
+    const arrayToSort = [].concat(...Object.values(todos));
+    const sortedArrayByDueDate = sortArrayByDueDate(arrayToSort);
+    let homeArray = "";
     if (uiSettings.sorting === "dueDate") {
-      //logic that transforms todo container for duedate and then check, passes it to render
+      homeArray = sortedArrayByDueDate;
     } else if (uiSettings.sorting === "priority") {
-      //logic that trasnforms todo container for priority and then check, passesi it to render
+      const sortedArrayByPriority = arrayToSort.toSorted(a, (b) => b.priority - a.priority);
+      homeArray = sortedArrayByPriority;
     }
+    const arrayToRender = sortArrayByComplete(homeArray);
+    renderTodoItems(arrayToRender);
   } else {
-    //logic that gets the list and select the correct array
+    const selectedListarray = todos[uiSettings.currentList];
+    //now sort that
   }
 }
+function sortArrayByDueDate(arrayToSort) {
+  const sortedArrayByDueDate = arrayToSort.toSorted((a, b) =>
+    a.dueDate < b.dueDate ? 1 : a.dueDate > b.dueDate ? -1 : 0
+  );
+  return sortedArrayByDueDate;
+}
 
-function renderTodoItems() {
-  if (uiSettings.currentList === "home") {
-    const todoContainer = document.querySelector(".todos-container");
-    todoContainer.innerHTML = "";
-    const arrayToSort = [].concat(...Object.values(todos));
-    //sorting by due date
-    const sortedArrayByDueDate = arrayToSort.sort((a, b) =>
-      a.dueDate < b.dueDate ? 1 : a.dueDate > b.dueDate ? -1 : 0
-    );
-    const sortedArrayByCompleteAndDueDate = sortedArrayByDueDate.sort(
-      (a, b) => Number(a.complete) - Number(b.complete)
-    );
-    sortedArrayByCompleteAndDueDate.forEach((todo) => {
-      const todoItem = document.createElement("div");
-      todoItem.setAttribute("id", `item-${todo.timestamp}`);
-      todoItem.classList.add("todo-item");
-      todoItem.innerHTML = generateTodoItemUI(todo);
-      // check if due
-      if (todo.due) {
-        const datePara = todoItem.querySelectorAll(".todo-end > p");
-        datePara.forEach((element) => {
-          element.classList.add("due");
-        });
-      }
-      // checkbox button (complete task)
-      const checkButton = todoItem.querySelector(`#check-${todo.timestamp}`);
-      !todo.complete
-        ? (checkButton.textContent = "radio_button_unchecked")
-        : (checkButton.textContent = "task_alt");
-      //priority indicator
-      const priorityIndicator = todoItem.querySelector(`#priority-${todo.timestamp}`);
-      const priorityIndicatorModal = todoItem.querySelector(
-        `#modal-priority-todo-${todo.timestamp}`
-      );
-      if (todo.priority === "high") {
-        priorityIndicator.classList.add("red");
-        priorityIndicatorModal.classList.add("red");
-      } else if (todo.priority === "low") {
-        priorityIndicator.classList.add("green");
-        priorityIndicatorModal.classList.add("green");
-      } else {
-        priorityIndicator.classList.add("orange");
-        priorityIndicatorModal.classList.add("orange");
-      }
-      checkButton.addEventListener("click", () => {
-        if (!todo.complete) {
-          todo.complete = true;
-          renderTodoItems();
-        } else {
-          todo.complete = false;
-          renderTodoItems();
-        }
+function sortArrayByComplete(arrayToSort) {
+  const sortedArrayByComplete = arrayToSort.toSorted(
+    (a, b) => Number(a.complete) - Number(b.complete)
+  );
+  return sortedArrayByComplete;
+}
+
+function renderTodoItems(sortedArray) {
+  const todoContainer = document.querySelector(".todos-container");
+  todoContainer.innerHTML = "";
+  sortedArray.forEach((todo) => {
+    const todoItem = document.createElement("div");
+    todoItem.setAttribute("id", `item-${todo.timestamp}`);
+    todoItem.classList.add("todo-item");
+    todoItem.innerHTML = generateTodoItemUI(todo);
+    // check if due
+    if (todo.due) {
+      const datePara = todoItem.querySelectorAll(".todo-end > p");
+      datePara.forEach((element) => {
+        element.classList.add("due");
       });
-      todoContainer.appendChild(todoItem);
-      setModalTodoItem(todo.timestamp);
-      setModalEditTodo(todo.timestamp);
-      captureEditTodoModal(todo.timestamp, todo.list);
+    }
+    // checkbox button (complete task)
+    const checkButton = todoItem.querySelector(`#check-${todo.timestamp}`);
+    !todo.complete
+      ? (checkButton.textContent = "radio_button_unchecked")
+      : (checkButton.textContent = "task_alt");
+    //priority indicator
+    const priorityIndicator = todoItem.querySelector(`#priority-${todo.timestamp}`);
+    const priorityIndicatorModal = todoItem.querySelector(`#modal-priority-todo-${todo.timestamp}`);
+    if (todo.priority === 2) {
+      priorityIndicator.classList.add("red");
+      priorityIndicatorModal.classList.add("red");
+    } else if (todo.priority === 0) {
+      priorityIndicator.classList.add("green");
+      priorityIndicatorModal.classList.add("green");
+    } else {
+      priorityIndicator.classList.add("orange");
+      priorityIndicatorModal.classList.add("orange");
+    }
+    checkButton.addEventListener("click", () => {
+      if (!todo.complete) {
+        todo.complete = true;
+        sortAndRender();
+      } else {
+        todo.complete = false;
+        sortAndRender();
+      }
     });
-  }
+    todoContainer.appendChild(todoItem);
+    setModalTodoItem(todo.timestamp);
+    setModalEditTodo(todo.timestamp);
+    captureEditTodoModal(todo.timestamp, todo.list);
+  });
 }
 
 //function that stores the rendered UI for a single todo item
@@ -274,7 +292,7 @@ function captureAddTodoModal() {
       return;
     }
     addTodo(title, dueDate, notes, priority, list);
-    renderTodoItems();
+    sortAndRender();
     addTodoModal.close();
     form.reset();
   });
@@ -308,14 +326,14 @@ function captureEditTodoModal(timestamp, list) {
       return;
     }
     editTodo(list, timestamp, newTitle, newDueDate, newNotes, newPriority, newList);
-    renderTodoItems();
+    sortAndRender();
     editTodoModal.close();
     form.reset();
   });
   const deleteTodoModalSubmit = document.querySelector(`#submit-deleteTodo-${timestamp}`);
   deleteTodoModalSubmit.addEventListener("click", () => {
     removeTodo(list, timestamp);
-    renderTodoItems();
+    sortAndRender();
     editTodoModal.close();
     form.reset();
   });
@@ -349,6 +367,37 @@ function writeToday() {
   )}`;
 }
 
+//navbar
+
+let listColor = {
+  personal: "#a7c7e7",
+};
+
+function setColors(newListColor) {
+  if (newListColor === null) {
+    return;
+  } else {
+    listColor = newListColor;
+  }
+}
+
+function addNewList() {
+  const newListInput = document.querySelector("#newlist");
+  const newListColor = document.querySelector("#newlistcolor");
+  const newListButton = document.querySelector("#submit-new-list");
+  newListButton.addEventListener("click", () => {
+    const computerNewListInput = convertReadableToComputerString(newListInput.value);
+    addList(computerNewListInput);
+    listColor[computerNewListInput] = newListColor.value;
+    saveToStorage("listColor", listColor);
+    //function to render list
+    const dialog = document.querySelector("#add-list-modal");
+    const form = document.querySelector(".add-list-modal-container");
+    dialog.close();
+    form.reset();
+  });
+}
+
 function preventFormsSubmit() {
   const formsArray = document.querySelectorAll("form");
   formsArray.forEach((element) => {
@@ -358,4 +407,4 @@ function preventFormsSubmit() {
   });
 }
 
-export { setModalTodoItem, setModalRenameList, renderTodoItems, uiSettings, writeName };
+export { setModalTodoItem, setModalRenameList, sortAndRender, uiSettings, writeName, setColors };

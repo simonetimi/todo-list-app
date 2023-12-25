@@ -12,13 +12,7 @@ import {
   setTodos,
   todos,
 } from "./modules/data.js";
-import {
-  setModalTodoItem,
-  setModalRenameList,
-  renderTodoItems,
-  currentList,
-  sortingSetting,
-} from "./modules/ui.js";
+import { sortAndRender } from "./modules/ui.js";
 
 if (process.env.NODE_ENV !== "production") {
   console.log("Looks like we are in development mode!");
@@ -32,7 +26,9 @@ if (process.env.NODE_ENV !== "production") {
   sidebar.prepend(logoImg);
 })();
 setTodos(getFromStorage("savedTodos"));
-renderTodoItems();
+sortAndRender();
+setColors(getFromStorage("listColor"));
+//render lists
 
 //testing
 
@@ -47,5 +43,3 @@ window.test = {
   todos,
   saveToStorage,
 };
-
-const arrayToSort = [].concat(...Object.values(todos));
