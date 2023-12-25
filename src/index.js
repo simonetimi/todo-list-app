@@ -12,7 +12,7 @@ import {
   setTodos,
   todos,
 } from "./modules/data.js";
-import { sortAndRender } from "./modules/ui.js";
+import { sortAndRender, setColors } from "./modules/ui.js";
 
 if (process.env.NODE_ENV !== "production") {
   console.log("Looks like we are in development mode!");

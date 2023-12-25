@@ -1,15 +1,7 @@
 import { format } from "date-fns";
 
-import {
-  todos,
-  addTodo,
-  editTodo,
-  saveName,
-  removeTodo,
-  addList,
-  saveToStorage,
-  getFromStorage,
-} from "./data.js";
+import { todos, addTodo, editTodo, saveName, removeTodo, addList } from "./data.js";
+import { saveToStorage, getFromStorage } from "./storage.js";
 
 (function init() {
   setModalAddTodo();
