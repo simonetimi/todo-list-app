@@ -40,7 +40,7 @@
   height: 72vh;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow: auto;
   gap: 0.8rem;
 }
 
