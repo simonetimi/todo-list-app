@@ -173,3 +173,7 @@ input[type="color"]::-webkit-color-swatch {
 .rename-list-color-input {
   width: 2rem;
 }
+
+.delete-list {
+  color: #ff6961;
+}

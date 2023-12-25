@@ -43,5 +43,3 @@ window.test = {
   todos,
   saveToStorage,
 };
-
-console.log(todos);

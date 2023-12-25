@@ -87,7 +87,8 @@
 .todo-end span:nth-last-of-type(2),
 .todo-view-start > button > span,
 #add-todo-modal > button > span,
-.edit-todo-modal > button > span {
+.edit-todo-modal > button > span,
+.lists-container > dialog > span {
   padding: 0.3rem;
 }
 
@@ -101,7 +102,8 @@
 
 .todo-item > span:hover,
 .todo-view-start > button > span:hover,
-#add-todo-modal > button > span:hover {
+#add-todo-modal > button > span:hover,
+.lists-container > dialog > span:hover {
   cursor: pointer;
   padding: 0.3rem;
   border-radius: 50%;
@@ -111,7 +113,8 @@
 .todo-end span:last-of-type:active,
 .todo-end span:nth-last-of-type(1):active,
 .todo-view-start > button > span:active,
-#add-todo-modal > button > span:active {
+#add-todo-modal > button > span:active,
+.lists-container > dialog > span:active {
   background-color: #efefef;
   border-radius: 50%;
   cursor: pointer;
@@ -247,7 +250,8 @@ textarea {
 
 .todo-view-start > button > span,
 #add-todo-modal > button > span,
-.edit-todo-modal > button > span {
+.edit-todo-modal > button > span,
+.lists-container > dialog > span {
   -webkit-box-shadow: 1px 2px 4px -1px rgba(0, 0, 0, 0.37);
   box-shadow: 1px 2px 4px -1px rgba(0, 0, 0, 0.37);
   border-radius: 50%;

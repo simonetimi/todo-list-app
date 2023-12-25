@@ -31,25 +31,22 @@ header {
   height: 1.4rem;
   display: flex;
   align-items: center;
+  gap: 0.4rem;
 }
 
-.controls > span {
-  border-radius: 50%;
+.controls {
+  border-radius: 12px;
   cursor: pointer;
-  padding: 0.2rem;
+  padding: 0.4rem;
 }
 
-.controls > span:hover {
+.controls:hover {
   background-color: #efefef;
-  border-radius: 50%;
   cursor: pointer;
-  padding: 0.2rem;
 }
 
-.controls > span:active {
+.controls:active {
   background-color: #efefef;
-  border-radius: 50%;
   cursor: pointer;
-  padding: 0.2rem;
   transform: translateY(2px);
 }

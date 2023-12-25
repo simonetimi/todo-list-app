@@ -1,6 +1,15 @@
 import { format } from "date-fns";
 
-import { todos, addTodo, editTodo, saveName, removeTodo, addList, renameList } from "./data.js";
+import {
+  todos,
+  addTodo,
+  editTodo,
+  saveName,
+  removeTodo,
+  addList,
+  renameList,
+  removeList,
+} from "./data.js";
 import { saveToStorage, getFromStorage } from "./storage.js";
 
 (function init() {
@@ -11,6 +20,7 @@ import { saveToStorage, getFromStorage } from "./storage.js";
   captureAddTodoModal();
   preventFormsSubmit();
   addNewList();
+  sortingSetter();
 })();
 
 // convert strings from user intput to variable names and vicebersa
@@ -83,44 +93,43 @@ function setModalAddList() {
     dialog.close();
   });
 }
-/*
-function setModalRenameList() {
-  const dialog = document.querySelector("#rename-list-modal");
-  const showButton = document.querySelector(".edit-list");
-  const closeButton = document.querySelector("#rename-list-modal button");
-  showButton.addEventListener("click", () => {
-    dialog.showModal();
-  });
-  closeButton.addEventListener("click", () => {
-    dialog.close();
-  });
-}
-*/
 
 let uiSettings = {
   sorting: "dueDate",
   currentList: "home",
 };
 
-//replace this function
-function sortAndRender() {
-  if (uiSettings.currentList === "home") {
-    const arrayToSort = [].concat(...Object.values(todos));
-    const sortedArrayByDueDate = sortArrayByDueDate(arrayToSort);
-    let homeArray = "";
+function sortingSetter() {
+  const sortingButton = document.querySelector(".controls");
+  const sortingDisplay = sortingButton.querySelector("p");
+  sortingButton.addEventListener("click", () => {
     if (uiSettings.sorting === "dueDate") {
-      homeArray = sortedArrayByDueDate;
+      uiSettings.sorting = "priority";
+      sortingDisplay.innerText = "Sort by priority";
     } else if (uiSettings.sorting === "priority") {
-      const sortedArrayByPriority = arrayToSort.toSorted(a, (b) => b.priority - a.priority);
-      homeArray = sortedArrayByPriority;
+      uiSettings.sorting = "dueDate";
+      sortingDisplay.innerText = "Sort by date";
     }
-    const arrayToRender = sortArrayByComplete(homeArray);
-    renderTodoItems(arrayToRender);
-  } else {
-    const selectedListarray = todos[uiSettings.currentList];
-    //now sort that
-  }
+    sortAndRender();
+  });
 }
+
+function sortAndRender() {
+  let arrayToSort = [];
+  if (uiSettings.currentList === "home") {
+    arrayToSort = [].concat(...Object.values(todos));
+  } else {
+    arrayToSort = todos[uiSettings.currentList];
+  }
+  //regardless of sorting selected, sort by due date
+  let tempArray = sortArrayByDueDate(arrayToSort);
+  if (uiSettings.sorting === "priority") {
+    tempArray = sortArrayByPriority(tempArray);
+  }
+  const arrayToRender = sortArrayByComplete(tempArray);
+  renderTodoItems(arrayToRender);
+}
+
 function sortArrayByDueDate(arrayToSort) {
   const sortedArrayByDueDate = arrayToSort.toSorted((a, b) =>
     a.dueDate < b.dueDate ? 1 : a.dueDate > b.dueDate ? -1 : 0
@@ -135,10 +144,15 @@ function sortArrayByComplete(arrayToSort) {
   return sortedArrayByComplete;
 }
 
-function renderTodoItems(sortedArray) {
+function sortArrayByPriority(arrayToSort) {
+  const sortedArrayByPriority = arrayToSort.toSorted((a, b) => b.priority - a.priority);
+  return sortedArrayByPriority;
+}
+
+function renderTodoItems(arrayToRender) {
   const todoContainer = document.querySelector(".todos-container");
   todoContainer.innerHTML = "";
-  sortedArray.forEach((todo) => {
+  arrayToRender.forEach((todo) => {
     const todoItem = document.createElement("div");
     todoItem.setAttribute("id", `item-${todo.timestamp}`);
     todoItem.classList.add("todo-item");
@@ -281,7 +295,7 @@ function captureAddTodoModal() {
     let notes = addTodoModal.querySelector("#notes").value;
     let priority = addTodoModal.querySelector("#priority").value;
     let list = addTodoModal.querySelector("#list").value;
-    if (dueDate === "" || title === "") {
+    if (dueDate === "" || title === "" || list === "") {
       return;
     }
     addTodo(title, dueDate, notes, priority, list);
@@ -366,27 +380,40 @@ let listColor = {
   personal: "#a7c7e7",
 };
 
-function setModalRenameList(list) {
-  const dialog = document.querySelector(`#rename-list-modal-${list}`);
-  const showButton = document.querySelector(`#edit-${list}`);
-  const closeButton = document.querySelector(`#rename-list-modal-${list} button`);
+function setModalRenameList(originalListName) {
+  // Keep track of the current list name
+  let currentListName = originalListName;
+  const dialog = document.getElementById(`rename-list-modal-${originalListName}`);
+  const showButton = document.getElementById(`edit-${originalListName}`);
+  const closeButton = document.getElementById(`collapse-button-${originalListName}`);
   showButton.addEventListener("click", () => {
     dialog.showModal();
   });
   closeButton.addEventListener("click", () => {
     dialog.close();
   });
-  const saveEditsButton = document.querySelector(`#save-list-edits-${list}`);
-  const editListInput = document.querySelector(`#rename-list-${list}`);
-  const editColorInput = document.querySelector(`#edit-list-color-${list}`);
+  const saveEditsButton = document.getElementById(`save-list-edits-${originalListName}`);
+  const editListInput = document.getElementById(`rename-list-${originalListName}`);
+  const editColorInput = document.getElementById(`edit-list-color-${originalListName}`);
   saveEditsButton.addEventListener("click", () => {
-    const renamedList = editListInput.value;
-    renameList(list, renamedList);
+    const renamedList = convertReadableToComputerString(editListInput.value);
+    renameList(currentListName, renamedList);
     listColor[renamedList] = editColorInput.value;
-    delete listColor[list];
-    console.log(listColor);
+    // Update the current list name for future reference
+    if (currentListName !== renamedList) {
+      delete listColor[currentListName];
+      currentListName = renamedList;
+    }
     saveToStorage("listColor", listColor);
     renderLists(todos);
+    sortAndRender();
+    dialog.close();
+  });
+  const deleteButton = document.getElementById(`delete-list-edits-${originalListName}`);
+  deleteButton.addEventListener("click", () => {
+    removeList(originalListName);
+    renderLists(todos);
+    sortAndRender();
     dialog.close();
   });
 }
@@ -399,18 +426,36 @@ function renderLists(obj) {
   <span class="material-symbols-outlined">home</span>
   <p>Home</p>
   </div>
-  </div>
   `;
-  for (let key in obj) {
+  const sortedList = sortObjectKeysAlphabetically(obj);
+  for (let key in sortedList) {
     const listItem = generateTodoList(key);
     listsContainer.insertAdjacentHTML("beforeend", listItem);
+    const divList = document.getElementById(`div-${key}`);
+    divList.addEventListener("click", () => {
+      uiSettings.currentList = key;
+      sortAndRender();
+    });
     setModalRenameList(key);
   }
+  document.getElementById("home-list").addEventListener("click", () => {
+    uiSettings.currentList = "home";
+    sortAndRender();
+  });
+}
+
+function sortObjectKeysAlphabetically(obj) {
+  const keys = Object.keys(obj).sort();
+  const sortedObj = {};
+  keys.forEach((key) => {
+    sortedObj[key] = obj[key];
+  });
+  return sortedObj;
 }
 
 function generateTodoList(list) {
   return `
-  <div>
+  <div id="div-${list}">
   <span class="material-symbols-outlined" style="color: ${listColor[list]}"
     >radio_button_unchecked</span
   >
@@ -419,7 +464,7 @@ function generateTodoList(list) {
   <span class="material-symbols-outlined edit-list" id="edit-${list}">edit</span>
 <!-- Modal for renaming the list (dialog) -->
 <dialog id="rename-list-modal-${list}">
-  <button><span class="material-symbols-outlined">collapse_content</span></button>
+  <span class="material-symbols-outlined" id="collapse-button-${list}">collapse_content</span>
   <form class="rename-list-modal-container">
     <label for="newlist">Edit list</label>
     <div>
@@ -428,6 +473,7 @@ function generateTodoList(list) {
         listColor[list]
       }" id="edit-list-color-${list}" class="rename-list-color-input" />
       <span class="material-symbols-outlined" id="save-list-edits-${list}">done</span>
+      <span class="material-symbols-outlined delete-list" id="delete-list-edits-${list}">delete</span>
     </div>
   </form>
 </dialog>
